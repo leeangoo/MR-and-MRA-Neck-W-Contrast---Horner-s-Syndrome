@@ -1,0 +1,72 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="base mri mra neck Horners" name="dcterms.title">
+    <meta content="dbf696d8-6608-4b7a-a4d2-ea24af0ba091" name="dcterms.identifier">
+    <meta content="en" name="dcterms.language">
+    <meta content="2019-01-31" name="dcterms.date">
+    <meta content="Nuance System" name="dcterms.creator">
+    <title>base mri mra neck Horners</title>
+    <script src="JSON_2.js"></script>
+</head>
+
+<body>
+    <section data-section-name="FINDINGS:">
+        <header class="Level1">FINDINGS:</header>
+        <p><label>OCULOSYMPATHETIC PATHWAY</label><br><label>HYPOTHALAMUS: </label><input type="text"
+                name="hypothalamus" value="No mass."></p>
+        <p><label>BRAINSTEM: </label><input type="text" name="brainstem" value="No mass or infarct."></p>
+        <p><label>CERVICOTHORACIC CORD: </label><input type="text" name="c8-t2 cord" value="Normal signal."></p>
+        <p><label>BRACHIAL PLEXUS: </label><input type="text" name="brachial plexus"
+                value="No mass or abnormal signal."></p>
+        <p><label>LUNG APICES: </label><input type="text" name="lung apices" value="No mass (Pancoast tumor)."></p>
+        <p><label>CAROTID SPACE: </label><input type="text" name="carotid space"
+                value="No glomus (carotid body or vagale) paraganglioma."></p>
+        <p><label>SKULL BASE: </label><input type="text" name="skull base"
+                value="No mass, including glomus jugulare paraganglioma."></p>
+        <p><label>CAVERNOUS SINUS: </label><input type="text" name="cavernous sinus" value="No thrombosis or mass."></p>
+        <p><label>ORBITS: </label><input type="text" name="orbits" value="No mass or inflammatory process."></p>
+        <p><label>MRA NECK: </label><input type="text" name="MRA neck"
+                value="No dissection, pseudoaneurysm, or fibromuscular dysplasia."></p>
+        <p><label>REMAINING SOFT TISSUES OF NECK: </label><input type="text" name="other neck" value="Normal."></p>
+    </section>
+    <button onclick="Submit()">Submit</button>
+    <script>
+    function Submit() {
+        FindingObservation.component[1].valueString=document.getElementsByName("hypothalamus")[0].value;
+        FindingObservation.component[2].valueString=document.getElementsByName("brainstem")[0].value;
+        FindingObservation.component[3].valueString=document.getElementsByName("c8-t2 cord")[0].value;
+        FindingObservation.component[4].valueString=document.getElementsByName("brachial plexus")[0].value;
+        FindingObservation.component[5].valueString=document.getElementsByName("lung apices")[0].value;
+        FindingObservation.component[6].valueString=document.getElementsByName("carotid space")[0].value;
+        FindingObservation.component[7].valueString=document.getElementsByName("skull base")[0].value;
+        FindingObservation.component[8].valueString=document.getElementsByName("cavernous sinus")[0].value;
+        FindingObservation.component[9].valueString=document.getElementsByName("orbits")[0].value;
+        FindingObservation.component[10].valueString=document.getElementsByName("MRA neck")[0].value;
+        FindingObservation.component[11].valueString=document.getElementsByName("other neck")[0].value;
+
+        postData(FindingObservation,"Observation")
+    }
+
+    function postData(jsonString, type) {
+        var xhttp = new XMLHttpRequest();
+        var fhirUrl ="https://hapi.fhir.org/baseR4";
+        var url = fhirUrl +"/"+type;
+        xhttp.open("POST", url, false);
+        xhttp.setRequestHeader("Content-type", 'application/json+fhir');
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4) // && this.status == 201) 
+            {
+                ret = JSON.parse(this.responseText);
+                alert(this.responseText);
+            }
+        };
+        var data = JSON.stringify(jsonString);
+        xhttp.send(data);
+    }
+
+    </script>
+</body>
+
+</html>
